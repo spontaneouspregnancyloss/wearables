@@ -86,24 +86,70 @@
       background: linear-gradient(90deg, var(--primary-color), #4facfe);
     }
 
-    .image-container {
+    .media-container {
       position: relative;
       margin-bottom: 1rem;
       border-radius: 8px;
       overflow: hidden;
+      background: #f0f0f0;
     }
 
-    .item-card img {
+    .item-card img,
+    .item-card video {
       width: 100%;
       height: 200px;
       object-fit: cover;
       cursor: zoom-in;
       transition: var(--transition);
       background: #f0f0f0;
+      display: block;
     }
 
-    .item-card img:hover { 
+    .item-card img:hover,
+    .item-card video:hover { 
       transform: scale(1.05);
+    }
+
+    /* Video-specific styles */
+    .item-card video {
+      cursor: pointer;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .play-button {
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 90, 158, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      transition: var(--transition);
+      opacity: 0.8;
+    }
+
+    .media-container:hover .play-button {
+      background: rgba(0, 90, 158, 1);
+      transform: scale(1.1);
+    }
+
+    .video-playing .play-button {
+      opacity: 0;
     }
 
     .loading-placeholder {
@@ -219,13 +265,18 @@
       max-height: 90vh;
     }
 
-    .image-modal img {
+    .image-modal img,
+    .image-modal video {
       max-width: 100%;
       max-height: 90vh;
       object-fit: contain;
       cursor: zoom-in;
       transition: var(--transition);
       border-radius: 8px;
+    }
+
+    .image-modal video {
+      cursor: pointer;
     }
 
     .close-btn {
@@ -283,6 +334,32 @@
       transform: translateX(0);
     }
 
+    /* Featured Section for Videos */
+    .featured-section {
+      background: white;
+      margin: 0 1rem 2rem;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .featured-section h2 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: 300;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .shop-container {
@@ -305,6 +382,16 @@
         font-size: 1.5rem;
         width: 35px;
         height: 35px;
+      }
+
+      .featured-section {
+        margin: 0 0.75rem 1rem;
+        padding: 1.5rem;
+      }
+
+      .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
     }
 
@@ -336,16 +423,28 @@
     <p>Premium activewear, loungewear & lifestyle accessories</p>
   </header>
 
+  <!-- Featured Video Section -->
+  <section class="featured-section">
+    <h2>Featured Collection</h2>
+    <div class="featured-grid" id="featuredContainer">
+      <!-- Featured videos will be dynamically generated here -->
+    </div>
+  </section>
+
   <main class="shop-container" id="shopContainer">
     <!-- Products will be dynamically generated here -->
   </main>
 
-  <!-- Modal for Enlarged Images -->
+  <!-- Modal for Enlarged Images/Videos -->
   <div id="imgModal" class="image-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal-content">
-      <button class="close-btn" id="closeModal" aria-label="Close image viewer">&times;</button>
-      <img id="modalImg" src="" alt="">
-      <div class="zoom-hint">Click image to zoom</div>
+      <button class="close-btn" id="closeModal" aria-label="Close media viewer">&times;</button>
+      <img id="modalImg" src="" alt="" style="display: none;">
+      <video id="modalVideo" controls style="display: none;">
+        <source src="" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="zoom-hint" id="zoomHint">Click to zoom</div>
     </div>
   </div>
 
@@ -355,7 +454,32 @@
   </div>
 
   <script>
-    // Product data structure
+    // Featured videos data
+    const featuredVideos = [
+      {
+        id: 'video-1',
+        name: "Models Collection",
+        video: "Vids/models3.mp4",
+        description: "Explore our latest model showcase featuring premium activewear designed for every body type.",
+        category: "featured"
+      },
+      {
+        id: 'video-2',
+        name: "Mature Yoga Collection",
+        video: "Vids/Yoga Mature3.mp4", 
+        description: "Discover comfortable yoga wear designed for mature practitioners seeking style and functionality.",
+        category: "featured"
+      },
+      {
+        id: 'video-3',
+        name: "Diverse Crop Tops",
+        video: "Vids/croptopDiverse1.mp4",
+        description: "Celebrate diversity with our inclusive crop top collection in various styles and fits.",
+        category: "featured"
+      }
+    ];
+
+    // Product data structure (keeping original products)
     const products = [
       {
         id: 1,
@@ -571,14 +695,57 @@
     let cart = [];
 
     // DOM elements
+    const featuredContainer = document.getElementById('featuredContainer');
     const shopContainer = document.getElementById('shopContainer');
     const modal = document.getElementById('imgModal');
     const modalImg = document.getElementById('modalImg');
+    const modalVideo = document.getElementById('modalVideo');
     const closeModal = document.getElementById('closeModal');
     const successMessage = document.getElementById('successMessage');
     const successText = document.getElementById('successText');
+    const zoomHint = document.getElementById('zoomHint');
 
     let zoomed = false;
+    let currentPlayingVideos = new Set();
+
+    // Generate featured video cards
+    function renderFeaturedVideos() {
+      featuredContainer.innerHTML = '';
+      
+      featuredVideos.forEach(video => {
+        const videoCard = createVideoCard(video);
+        featuredContainer.appendChild(videoCard);
+      });
+    }
+
+    // Create featured video card
+    function createVideoCard(video) {
+      const card = document.createElement('article');
+      card.className = 'item-card';
+      card.setAttribute('data-video-id', video.id);
+      
+      card.innerHTML = `
+        <div class="media-container">
+          <video 
+            src="${video.video}" 
+            muted 
+            loop 
+            preload="metadata"
+            onloadeddata="this.style.opacity='1'"
+            onerror="handleVideoError(this)"
+          ></video>
+          <div class="video-overlay">
+            <div class="play-button">▶</div>
+          </div>
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">${video.name}</h3>
+          <p class="item-description">${video.description}</p>
+        </div>
+      `;
+
+      return card;
+    }
 
     // Generate product cards
     function renderProducts(productsToRender = products) {
@@ -597,7 +764,7 @@
       card.setAttribute('data-product-id', product.id);
       
       card.innerHTML = `
-        <div class="image-container">
+        <div class="media-container">
           <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="handleImageError(this)">
         </div>
         <div class="item-info">
@@ -626,6 +793,37 @@
       img.style.background = '#f0f0f0';
       img.alt = 'Image not available';
       img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23f0f0f0"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-family="Arial" font-size="14" fill="%23999">Image not available</text></svg>';
+    }
+
+    // Handle video loading errors
+    function handleVideoError(video) {
+      video.style.background = '#f0f0f0';
+      video.poster = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23f0f0f0"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-family="Arial" font-size="14" fill="%23999">Video not available</text></svg>';
+    }
+
+    // Video hover functionality
+    function setupVideoHover() {
+      featuredContainer.addEventListener('mouseenter', (e) => {
+        const video = e.target.closest('.media-container')?.querySelector('video');
+        if (video && !currentPlayingVideos.has(video)) {
+          video.play().then(() => {
+            currentPlayingVideos.add(video);
+            video.closest('.media-container').classList.add('video-playing');
+          }).catch(err => {
+            console.log('Video autoplay prevented:', err);
+          });
+        }
+      }, true);
+
+      featuredContainer.addEventListener('mouseleave', (e) => {
+        const video = e.target.closest('.media-container')?.querySelector('video');
+        if (video && currentPlayingVideos.has(video)) {
+          video.pause();
+          video.currentTime = 0;
+          currentPlayingVideos.delete(video);
+          video.closest('.media-container').classList.remove('video-playing');
+        }
+      }, true);
     }
 
     // Add to cart functionality
@@ -666,32 +864,17 @@
 
     // Modal functionality
     function setupModal() {
-      // Open modal when clicking on product images
-      shopContainer.addEventListener('click', (e) => {
-        if (e.target.tagName === 'IMG' && e.target.closest('.item-card')) {
-          modal.style.display = 'flex';
-          modalImg.src = e.target.src;
-          modalImg.alt = e.target.alt;
-          zoomed = false;
-          modalImg.style.transform = 'scale(1)';
-          modalImg.style.cursor = 'zoom-in';
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
-          
-          // Focus management for accessibility
-          setTimeout(() => closeModal.focus(), 100);
+      // Open modal when clicking on media
+      document.addEventListener('click', (e) => {
+        if (e.target.tagName === 'IMG' && e.target.closest('.media-container')) {
+          openImageModal(e.target.src, e.target.alt);
+        } else if (e.target.tagName === 'VIDEO' && e.target.closest('.media-container')) {
+          openVideoModal(e.target.src);
         }
       });
 
       // Close modal
       closeModal.addEventListener('click', closeModalFunction);
-      
-      // Zoom functionality
-      modalImg.addEventListener('click', () => {
-        zoomed = !zoomed;
-        modalImg.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
-        modalImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
-      });
 
       // Close on background click
       modal.addEventListener('click', (e) => {
@@ -707,10 +890,64 @@
             closeModalFunction();
           } else if (e.key === ' ' || e.key === 'Enter') {
             e.preventDefault();
-            modalImg.click();
+            if (modalImg.style.display !== 'none') {
+              toggleImageZoom();
+            } else if (modalVideo.style.display !== 'none') {
+              toggleVideoPlayPause();
+            }
           }
         }
       });
+    }
+
+    function openImageModal(src, alt) {
+      modal.style.display = 'flex';
+      modalImg.src = src;
+      modalImg.alt = alt;
+      modalImg.style.display = 'block';
+      modalVideo.style.display = 'none';
+      zoomed = false;
+      modalImg.style.transform = 'scale(1)';
+      modalImg.style.cursor = 'zoom-in';
+      zoomHint.textContent = 'Click image to zoom';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Image zoom on click
+      modalImg.onclick = toggleImageZoom;
+      
+      setTimeout(() => closeModal.focus(), 100);
+    }
+
+    function openVideoModal(src) {
+      modal.style.display = 'flex';
+      modalVideo.src = src;
+      modalImg.style.display = 'none';
+      modalVideo.style.display = 'block';
+      modalVideo.controls = true;
+      zoomHint.textContent = 'Click to play/pause video';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Video play/pause on click
+      modalVideo.onclick = toggleVideoPlayPause;
+      
+      setTimeout(() => closeModal.focus(), 100);
+    }
+
+    function toggleImageZoom() {
+      zoomed = !zoomed;
+      modalImg.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
+      modalImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
+      zoomHint.textContent = zoomed ? 'Click to zoom out' : 'Click to zoom in';
+    }
+
+    function toggleVideoPlayPause() {
+      if (modalVideo.paused) {
+        modalVideo.play();
+      } else {
+        modalVideo.pause();
+      }
     }
 
     function closeModalFunction() {
@@ -718,11 +955,41 @@
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       zoomed = false;
+      
+      // Pause and reset video if it was playing
+      if (modalVideo.style.display !== 'none') {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+        modalVideo.src = '';
+      }
+      
+      // Clear image
+      if (modalImg.style.display !== 'none') {
+        modalImg.src = '';
+      }
     }
+
+    // Pause all videos when page loses focus
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        currentPlayingVideos.forEach(video => {
+          video.pause();
+          video.currentTime = 0;
+        });
+        currentPlayingVideos.clear();
+        
+        // Remove playing class from all containers
+        document.querySelectorAll('.media-container.video-playing').forEach(container => {
+          container.classList.remove('video-playing');
+        });
+      }
+    });
 
     // Initialize the app
     function init() {
+      renderFeaturedVideos();
       renderProducts();
+      setupVideoHover();
       setupModal();
       
       // Add loading animation to images
@@ -736,11 +1003,22 @@
             });
           }
         });
+
+        // Preload video metadata for smoother hover experience
+        const videos = document.querySelectorAll('.item-card video');
+        videos.forEach(video => {
+          video.addEventListener('loadedmetadata', () => {
+            video.style.opacity = '1';
+          });
+        });
       });
     }
 
     // Start the application
     init();
+
+    // Expose addToCart function globally for onclick handlers
+    window.addToCart = addToCart;
   </script>
 </body>
 </html>
