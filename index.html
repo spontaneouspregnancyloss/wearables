@@ -2,456 +2,745 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SPL Project Apparel Shop - Premium activewear, loungewear, and accessories">
   <title>SPL Project Apparel Shop</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #fafafa; margin: 0; }
-    .shop-container { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; padding: 20px; }
+    :root {
+      --primary-color: #005a9e;
+      --primary-hover: #003d6a;
+      --secondary-color: #f8f9fa;
+      --text-color: #333;
+      --border-color: #ddd;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      margin: 0; 
+      line-height: 1.6;
+      color: var(--text-color);
+    }
+
+    .header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: white;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .header h1 {
+      margin: 0;
+      color: var(--primary-color);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+    }
+
+    .header p {
+      margin: 0.5rem 0 0;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .shop-container { 
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
     .item-card {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #fff;
-      width: 240px;
-      padding: 16px;
-      box-shadow: 2px 2px 8px #eee;
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      margin-bottom: 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
     }
+
+    .item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .item-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), #4facfe);
+    }
+
+    .image-container {
+      position: relative;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
     .item-card img {
-      width: 180px; height: 180px; object-fit: cover; border-radius: 6px;
-      margin-bottom: 12px; background: #f2f2f2; cursor: zoom-in;
-      transition: transform 0.2s ease;
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: var(--transition);
+      background: #f0f0f0;
     }
-    .item-card img:hover { transform: scale(1.03); }
-    .item-description { margin-bottom: 12px; min-height: 40px; text-align: center; }
-    .size-select { margin-bottom: 12px; }
+
+    .item-card img:hover { 
+      transform: scale(1.05);
+    }
+
+    .loading-placeholder {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+
+    .item-description { 
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .item-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .size-select {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .size-select label {
+      font-weight: 500;
+      min-width: 40px;
+    }
+
+    .size-select select {
+      flex: 1;
+      padding: 0.5rem;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .size-select select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 90, 158, 0.1);
+    }
+
     .add-to-cart {
-      background: #005a9e; color: #fff; border: none; border-radius: 4px;
-      padding: 8px 16px; cursor: pointer;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
     }
-    .add-to-cart:hover { background: #003d6a; }
-    h1 { text-align: center; padding-top: 20px; }
+
+    .add-to-cart:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .add-to-cart:active {
+      transform: translateY(0);
+    }
+
+    .add-to-cart:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     /* Modal Styles */
     .image-modal {
-      display: none; position: fixed; z-index: 999;
-      left: 0; top: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      justify-content: center; align-items: center;
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
     }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
     .image-modal img {
-      max-width: 90%; max-height: 90%;
-      cursor: zoom-in; transition: transform 0.2s ease;
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      cursor: zoom-in;
+      transition: var(--transition);
+      border-radius: 8px;
     }
+
     .close-btn {
-      position: absolute; top: 20px; right: 40px;
-      color: white; font-size: 40px; font-weight: bold;
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
       cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .close-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      background: rgba(0,0,0,0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Success Message */
+    .success-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #28a745;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transform: translateX(400px);
+      transition: var(--transition);
+      z-index: 1001;
+    }
+
+    .success-message.show {
+      transform: translateX(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .shop-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        padding: 0 0.75rem 1rem;
+      }
+
+      .item-card {
+        padding: 1rem;
+      }
+
+      .header {
+        padding: 1.5rem 1rem;
+      }
+
+      .close-btn {
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .shop-container {
+        grid-template-columns: 1fr;
+      }
+
+      .zoom-hint {
+        display: none;
+      }
+    }
+
+    /* Focus styles for accessibility */
+    .item-card:focus-within {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    .add-to-cart:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
-  <h1>SPL Project Apparel Shop</h1>
-  <div class="shop-container">
-    <div class="item-card">
-      <img src="images/Aqua-Mint%20Sports%20Bra.png" alt="Aqua-Mint Sports Bra">
-      <div class="item-description">Aqua-Mint Sports Bra - Supportive and stylish for workouts.</div>
-      <div class="size-select">
-        <label for="size2">Size:</label>
-        <select id="size2" name="size2">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Blush%20SPL%20Crop%20Top.png" alt="Blush SPL Crop Top">
-      <div class="item-description">Blush SPL Crop Top - Soft and trendy crop top in blush pink.</div>
-      <div class="size-select">
-        <label for="size3">Size:</label>
-        <select id="size3" name="size3">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Blush%20SPL%20T-Shirt.png" alt="Blush SPL T-Shirt">
-      <div class="item-description">Blush SPL T-Shirt - Classic t-shirt in blush for everyday wear.</div>
-      <div class="size-select">
-        <label for="size4">Size:</label>
-        <select id="size4" name="size4">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Color-Block%20Active%20Top.png" alt="Color-Block Active Top">
-      <div class="item-description">Color-Block Active Top - Stylish color-block design for activity or leisure.</div>
-      <div class="size-select">
-        <label for="size5">Size:</label>
-        <select id="size5" name="size5">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Comfort%20Grief%20Pillow.png" alt="Comfort Grief Pillow">
-      <div class="item-description">Comfort Grief Pillow - Soft pillow providing comfort and support.</div>
-      <div class="size-select">
-        <label for="size6">Size:</label>
-        <select id="size6" name="size6">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Comfort%20Grief%20Socks.png" alt="Comfort Grief Socks">
-      <div class="item-description">Comfort Grief Socks - Cozy socks for moments of relaxation.</div>
-      <div class="size-select">
-        <label for="size7">Size:</label>
-        <select id="size7" name="size7">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/cool%20body%20suit.png" alt="Cool Body Suit">
-      <div class="item-description">Cool Body Suit - Sleek and comfortable body suit for all-day wear.</div>
-      <div class="size-select">
-        <label for="size8">Size:</label>
-        <select id="size8" name="size8">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Coral%20Sports%20Bra%20Design.png" alt="Coral Sports Bra Design">
-      <div class="item-description">Coral Sports Bra Design - Vibrant coral color for a fresh look.</div>
-      <div class="size-select">
-        <label for="size9">Size:</label>
-        <select id="size9" name="size9">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Deep%20Berry%20SPL%20Yoga%20Pants.png" alt="Deep Berry SPL Yoga Pants">
-      <div class="item-description">Deep Berry SPL Yoga Pants - Stretchy and bold for your yoga sessions.</div>
-      <div class="size-select">
-        <label for="size10">Size:</label>
-        <select id="size10" name="size10">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Flesh-Colored%20SPL%20Body%20Suit.png" alt="Flesh-Colored SPL Body Suit">
-      <div class="item-description">Flesh-Colored SPL Body Suit - Form-fitting suit in natural tones.</div>
-      <div class="size-select">
-        <label for="size11">Size:</label>
-        <select id="size11" name="size11">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Lavender%20SPL%20Crop%20Top.png" alt="Lavender SPL Crop Top">
-      <div class="item-description">Lavender SPL Crop Top - Soft lavender crop top with SPL logo.</div>
-      <div class="size-select">
-        <label for="size12">Size:</label>
-        <select id="size12" name="size12">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Lavender%20SPL%20T-Shirt.png" alt="Lavender SPL T-Shirt">
-      <div class="item-description">Lavender SPL T-Shirt - Everyday tee in gentle lavender hue.</div>
-      <div class="size-select">
-        <label for="size13">Size:</label>
-        <select id="size13" name="size13">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Long%20Sleeve%20Anatomy%20Body%20Suit%20with%20Skirt.png" alt="Long Sleeve Anatomy Body Suit with Skirt">
-      <div class="item-description">Long Sleeve Anatomy Body Suit with Skirt - Unique design for comfort and style.</div>
-      <div class="size-select">
-        <label for="size14">Size:</label>
-        <select id="size14" name="size14">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Mint%20Sports%20Bra%20Design.png" alt="Mint Sports Bra Design">
-      <div class="item-description">Mint Sports Bra Design - Refreshing mint for sporty looks.</div>
-      <div class="size-select">
-        <label for="size15">Size:</label>
-        <select id="size15" name="size15">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Mint%20Tank%20with%20Coral%20Accents.png" alt="Mint Tank with Coral Accents">
-      <div class="item-description">Mint Tank with Coral Accents - Breathable tank with vibrant accents.</div>
-      <div class="size-select">
-        <label for="size16">Size:</label>
-        <select id="size16" name="size16">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Navy%20SPL%20Yoga%20Pants.png" alt="Navy SPL Yoga Pants">
-      <div class="item-description">Navy SPL Yoga Pants - Classic navy yoga pants for all activities.</div>
-      <div class="size-select">
-        <label for="size17">Size:</label>
-        <select id="size17" name="size17">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Peach%20SPL%20Crop%20Top.png" alt="Peach SPL Crop Top">
-      <div class="item-description">Peach SPL Crop Top - Light and fresh peach-colored crop top.</div>
-      <div class="size-select">
-        <label for="size18">Size:</label>
-        <select id="size18" name="size18">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Peach%20SPL%20T-Shirt.png" alt="Peach SPL T-Shirt">
-      <div class="item-description">Peach SPL T-Shirt - Everyday comfort with a pop of peach.</div>
-      <div class="size-select">
-        <label for="size19">Size:</label>
-        <select id="size19" name="size19">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/SPL%20Logo%20Baseball%20Cap.png" alt="SPL Logo Baseball Cap">
-      <div class="item-description">SPL Logo Baseball Cap - Cap off your look with SPL pride.</div>
-      <div class="size-select">
-        <label for="size20">Size:</label>
-        <select id="size20" name="size20">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/SPL%20Logo%20Ovary%20Body%20Suit.png" alt="SPL Logo Ovary Body Suit">
-      <div class="item-description">SPL Logo Ovary Body Suit - Unique body suit with SPL ovary logo.</div>
-      <div class="size-select">
-        <label for="size21">Size:</label>
-        <select id="size21" name="size21">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/SPL%20Logo%20Tote%20Bags.png" alt="SPL Logo Tote Bags">
-      <div class="item-description">SPL Logo Tote Bags - Carry your essentials with SPL style.</div>
-      <div class="size-select">
-        <label for="size22">Size:</label>
-        <select id="size22" name="size22">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/SPL%20Pajama%20Sets%20Loungewear.png" alt="SPL Pajama Sets Loungewear">
-      <div class="item-description">SPL Pajama Sets Loungewear - Soft and cozy loungewear sets.</div>
-      <div class="size-select">
-        <label for="size23">Size:</label>
-        <select id="size23" name="size23">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/SPL%20Scarves%20Bandanas%20Collection.png" alt="SPL Scarves Bandanas Collection">
-      <div class="item-description">SPL Scarves & Bandanas - Accessorize with unique SPL prints.</div>
-      <div class="size-select">
-        <label for="size24">Size:</label>
-        <select id="size24" name="size24">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/Teal%20SPL%20Yoga%20Pants.png" alt="Teal SPL Yoga Pants">
-      <div class="item-description">Teal SPL Yoga Pants - Flexible and colorful for your routines.</div>
-      <div class="size-select">
-        <label for="size25">Size:</label>
-        <select id="size25" name="size25">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="images/topography.png" alt="Topography">
-      <div class="item-description">Topography - Unique topography-inspired accessory or apparel.</div>
-      <div class="size-select">
-        <label for="size26">Size:</label>
-        <select id="size26" name="size26">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
-    </div>
-    <div class="item-card">
-      <img src="imageswhote%20body%20suit.png" alt="Whote Body Suit">
-      <div class="item-description">Whote Body Suit - Sleek white body suit for versatile wear.</div>
-      <div class="size-select">
-        <label for="size27">Size:</label>
-        <select id="size27" name="size27">
-          <option value="s">S</option>
-          <option value="m">M</option>
-          <option value="l">L</option>
-          <option value="xl">XL</option>
-        </select>
-      </div>
-      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+  <header class="header">
+    <h1>SPL Project Apparel Shop</h1>
+    <p>Premium activewear, loungewear & lifestyle accessories</p>
+  </header>
+
+  <main class="shop-container" id="shopContainer">
+    <!-- Products will be dynamically generated here -->
+  </main>
+
+  <!-- Modal for Enlarged Images -->
+  <div id="imgModal" class="image-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal" aria-label="Close image viewer">&times;</button>
+      <img id="modalImg" src="" alt="">
+      <div class="zoom-hint">Click image to zoom</div>
     </div>
   </div>
 
-  <!-- Modal for Enlarged Images -->
-  <div id="imgModal" class="image-modal">
-    <span class="close-btn" id="closeModal">&times;</span>
-    <img id="modalImg" src="">
+  <!-- Success Message -->
+  <div id="successMessage" class="success-message">
+    <span id="successText">Added to cart!</span>
   </div>
 
   <script>
+    // Product data structure
+    const products = [
+      {
+        id: 1,
+        name: "Aqua-Mint Sports Bra",
+        image: "images/Aqua-Mint%20Sports%20Bra.png",
+        description: "Supportive and stylish for workouts.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 2,
+        name: "Blush SPL Crop Top",
+        image: "images/Blush%20SPL%20Crop%20Top.png",
+        description: "Soft and trendy crop top in blush pink.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "tops"
+      },
+      {
+        id: 3,
+        name: "Blush SPL T-Shirt",
+        image: "images/Blush%20SPL%20T-Shirt.png",
+        description: "Classic t-shirt in blush for everyday wear.",
+        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        category: "tops"
+      },
+      {
+        id: 4,
+        name: "Color-Block Active Top",
+        image: "images/Color-Block%20Active%20Top.png",
+        description: "Stylish color-block design for activity or leisure.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 5,
+        name: "Comfort Grief Pillow",
+        image: "images/Comfort%20Grief%20Pillow.png",
+        description: "Soft pillow providing comfort and support.",
+        sizes: ["Standard", "Large"],
+        category: "accessories"
+      },
+      {
+        id: 6,
+        name: "Comfort Grief Socks",
+        image: "images/Comfort%20Grief%20Socks.png",
+        description: "Cozy socks for moments of relaxation.",
+        sizes: ["6-8", "9-11", "12-14"],
+        category: "accessories"
+      },
+      {
+        id: 7,
+        name: "Cool Body Suit",
+        image: "images/cool%20body%20suit.png",
+        description: "Sleek and comfortable body suit for all-day wear.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 8,
+        name: "Coral Sports Bra Design",
+        image: "images/Coral%20Sports%20Bra%20Design.png",
+        description: "Vibrant coral color for a fresh look.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 9,
+        name: "Deep Berry SPL Yoga Pants",
+        image: "images/Deep%20Berry%20SPL%20Yoga%20Pants.png",
+        description: "Stretchy and bold for your yoga sessions.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "bottoms"
+      },
+      {
+        id: 10,
+        name: "Flesh-Colored SPL Body Suit",
+        image: "images/Flesh-Colored%20SPL%20Body%20Suit.png",
+        description: "Form-fitting suit in natural tones.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 11,
+        name: "Lavender SPL Crop Top",
+        image: "images/Lavender%20SPL%20Crop%20Top.png",
+        description: "Soft lavender crop top with SPL logo.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "tops"
+      },
+      {
+        id: 12,
+        name: "Lavender SPL T-Shirt",
+        image: "images/Lavender%20SPL%20T-Shirt.png",
+        description: "Everyday tee in gentle lavender hue.",
+        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        category: "tops"
+      },
+      {
+        id: 13,
+        name: "Long Sleeve Anatomy Body Suit with Skirt",
+        image: "images/Long%20Sleeve%20Anatomy%20Body%20Suit%20with%20Skirt.png",
+        description: "Unique design for comfort and style.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 14,
+        name: "Mint Sports Bra Design",
+        image: "images/Mint%20Sports%20Bra%20Design.png",
+        description: "Refreshing mint for sporty looks.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 15,
+        name: "Mint Tank with Coral Accents",
+        image: "images/Mint%20Tank%20with%20Coral%20Accents.png",
+        description: "Breathable tank with vibrant accents.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "tops"
+      },
+      {
+        id: 16,
+        name: "Navy SPL Yoga Pants",
+        image: "images/Navy%20SPL%20Yoga%20Pants.png",
+        description: "Classic navy yoga pants for all activities.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "bottoms"
+      },
+      {
+        id: 17,
+        name: "Peach SPL Crop Top",
+        image: "images/Peach%20SPL%20Crop%20Top.png",
+        description: "Light and fresh peach-colored crop top.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "tops"
+      },
+      {
+        id: 18,
+        name: "Peach SPL T-Shirt",
+        image: "images/Peach%20SPL%20T-Shirt.png",
+        description: "Everyday comfort with a pop of peach.",
+        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        category: "tops"
+      },
+      {
+        id: 19,
+        name: "SPL Logo Baseball Cap",
+        image: "images/SPL%20Logo%20Baseball%20Cap.png",
+        description: "Cap off your look with SPL pride.",
+        sizes: ["One Size", "Adjustable"],
+        category: "accessories"
+      },
+      {
+        id: 20,
+        name: "SPL Logo Ovary Body Suit",
+        image: "images/SPL%20Logo%20Ovary%20Body%20Suit.png",
+        description: "Unique body suit with SPL ovary logo.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      },
+      {
+        id: 21,
+        name: "SPL Logo Tote Bags",
+        image: "images/SPL%20Logo%20Tote%20Bags.png",
+        description: "Carry your essentials with SPL style.",
+        sizes: ["Standard"],
+        category: "accessories"
+      },
+      {
+        id: 22,
+        name: "SPL Pajama Sets Loungewear",
+        image: "images/SPL%20Pajama%20Sets%20Loungewear.png",
+        description: "Soft and cozy loungewear sets.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "loungewear"
+      },
+      {
+        id: 23,
+        name: "SPL Scarves & Bandanas",
+        image: "images/SPL%20Scarves%20Bandanas%20Collection.png",
+        description: "Accessorize with unique SPL prints.",
+        sizes: ["One Size"],
+        category: "accessories"
+      },
+      {
+        id: 24,
+        name: "Teal SPL Yoga Pants",
+        image: "images/Teal%20SPL%20Yoga%20Pants.png",
+        description: "Flexible and colorful for your routines.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "bottoms"
+      },
+      {
+        id: 25,
+        name: "Topography Design",
+        image: "images/topography.png",
+        description: "Unique topography-inspired accessory or apparel.",
+        sizes: ["S", "M", "L", "XL"],
+        category: "accessories"
+      },
+      {
+        id: 26,
+        name: "White Body Suit",
+        image: "images/whote%20body%20suit.png",
+        description: "Sleek white body suit for versatile wear.",
+        sizes: ["XS", "S", "M", "L", "XL"],
+        category: "activewear"
+      }
+    ];
+
+    // Shopping cart (in-memory storage)
+    let cart = [];
+
+    // DOM elements
+    const shopContainer = document.getElementById('shopContainer');
     const modal = document.getElementById('imgModal');
     const modalImg = document.getElementById('modalImg');
     const closeModal = document.getElementById('closeModal');
+    const successMessage = document.getElementById('successMessage');
+    const successText = document.getElementById('successText');
+
     let zoomed = false;
 
-    document.querySelectorAll('.item-card img').forEach(img => {
-      img.addEventListener('click', () => {
-        modal.style.display = 'flex';
-        modalImg.src = img.src;
-        zoomed = false;
-        modalImg.style.transform = 'scale(1)';
+    // Generate product cards
+    function renderProducts(productsToRender = products) {
+      shopContainer.innerHTML = '';
+      
+      productsToRender.forEach(product => {
+        const productCard = createProductCard(product);
+        shopContainer.appendChild(productCard);
       });
-    });
+    }
 
-    closeModal.addEventListener('click', () => modal.style.display = 'none');
+    // Create individual product card
+    function createProductCard(product) {
+      const card = document.createElement('article');
+      card.className = 'item-card';
+      card.setAttribute('data-product-id', product.id);
+      
+      card.innerHTML = `
+        <div class="image-container">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="handleImageError(this)">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">${product.name}</h3>
+          <p class="item-description">${product.description}</p>
+          <div class="item-controls">
+            <div class="size-select">
+              <label for="size-${product.id}">Size:</label>
+              <select id="size-${product.id}" name="size-${product.id}" required>
+                <option value="">Choose size</option>
+                ${product.sizes.map(size => `<option value="${size.toLowerCase()}">${size}</option>`).join('')}
+              </select>
+            </div>
+            <button class="add-to-cart" onclick="addToCart(${product.id})" type="button">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      `;
 
-    modalImg.addEventListener('click', () => {
-      zoomed = !zoomed;
-      modalImg.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
-      modalImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
-    });
+      return card;
+    }
 
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
+    // Handle image loading errors
+    function handleImageError(img) {
+      img.style.background = '#f0f0f0';
+      img.alt = 'Image not available';
+      img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23f0f0f0"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-family="Arial" font-size="14" fill="%23999">Image not available</text></svg>';
+    }
+
+    // Add to cart functionality
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const sizeSelect = document.getElementById(`size-${productId}`);
+      const selectedSize = sizeSelect.value;
+
+      if (!selectedSize) {
+        sizeSelect.focus();
+        sizeSelect.style.borderColor = '#dc3545';
+        setTimeout(() => {
+          sizeSelect.style.borderColor = '';
+        }, 3000);
+        return;
+      }
+
+      // Add to cart (in real app, this would sync with backend)
+      cart.push({
+        ...product,
+        selectedSize,
+        quantity: 1,
+        addedAt: new Date()
+      });
+
+      // Show success message
+      successText.textContent = `${product.name} (${selectedSize.toUpperCase()}) added to cart!`;
+      successMessage.classList.add('show');
+      setTimeout(() => {
+        successMessage.classList.remove('show');
+      }, 3000);
+
+      // Reset size selection
+      sizeSelect.value = '';
+
+      console.log('Cart:', cart); // For debugging
+    }
+
+    // Modal functionality
+    function setupModal() {
+      // Open modal when clicking on product images
+      shopContainer.addEventListener('click', (e) => {
+        if (e.target.tagName === 'IMG' && e.target.closest('.item-card')) {
+          modal.style.display = 'flex';
+          modalImg.src = e.target.src;
+          modalImg.alt = e.target.alt;
+          zoomed = false;
+          modalImg.style.transform = 'scale(1)';
+          modalImg.style.cursor = 'zoom-in';
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          
+          // Focus management for accessibility
+          setTimeout(() => closeModal.focus(), 100);
+        }
+      });
+
+      // Close modal
+      closeModal.addEventListener('click', closeModalFunction);
+      
+      // Zoom functionality
+      modalImg.addEventListener('click', () => {
+        zoomed = !zoomed;
+        modalImg.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
+        modalImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
+      });
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModalFunction();
+        }
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+          if (e.key === 'Escape') {
+            closeModalFunction();
+          } else if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            modalImg.click();
+          }
+        }
+      });
+    }
+
+    function closeModalFunction() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      zoomed = false;
+    }
+
+    // Initialize the app
+    function init() {
+      renderProducts();
+      setupModal();
+      
+      // Add loading animation to images
+      document.addEventListener('DOMContentLoaded', () => {
+        const images = document.querySelectorAll('.item-card img');
+        images.forEach(img => {
+          if (!img.complete) {
+            img.classList.add('loading-placeholder');
+            img.addEventListener('load', () => {
+              img.classList.remove('loading-placeholder');
+            });
+          }
+        });
+      });
+    }
+
+    // Start the application
+    init();
   </script>
 </body>
 </html>
