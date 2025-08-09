@@ -1,240 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SPL Project Apparel Shop</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fafafa; margin: 0; }
+    .shop-container { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; padding: 20px; }
+    .item-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      width: 240px;
+      padding: 16px;
+      box-shadow: 2px 2px 8px #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .item-card img {
+      width: 180px; height: 180px; object-fit: cover; border-radius: 6px;
+      margin-bottom: 12px; background: #f2f2f2; cursor: zoom-in;
+      transition: transform 0.2s ease;
+    }
+    .item-card img:hover { transform: scale(1.03); }
+    .item-description { margin-bottom: 12px; min-height: 40px; text-align: center; }
+    .size-select { margin-bottom: 12px; }
+    .add-to-cart {
+      background: #005a9e; color: #fff; border: none; border-radius: 4px;
+      padding: 8px 16px; cursor: pointer;
+    }
+    .add-to-cart:hover { background: #003d6a; }
+    h1 { text-align: center; padding-top: 20px; }
 
-<p>SPL Project Apparel Shop</p>
-<h1>SPL Project Apparel Shop</h1>
-<div>
-<div><img src="images/Aqua-Mint%20Sports%20Bra.png" alt="Aqua-Mint Sports Bra" />
-<div>Aqua-Mint Sports Bra - Supportive and stylish for workouts.</div>
-<div><label for="size2">Size:</label><select name="size2">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Blush%20SPL%20Crop%20Top.png" alt="Blush SPL Crop Top" />
-<div>Blush SPL Crop Top - Soft and trendy crop top in blush pink.</div>
-<div><label for="size3">Size:</label><select name="size3">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Blush%20SPL%20T-Shirt.png" alt="Blush SPL T-Shirt" />
-<div>Blush SPL T-Shirt - Classic t-shirt in blush for everyday wear.</div>
-<div><label for="size4">Size:</label><select name="size4">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Color-Block%20Active%20Top.png" alt="Color-Block Active Top" />
-<div>Color-Block Active Top - Stylish color-block design for activity or leisure.</div>
-<div><label for="size5">Size:</label><select name="size5">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Comfort%20Grief%20Pillow.png" alt="Comfort Grief Pillow" />
-<div>Comfort Grief Pillow - Soft pillow providing comfort and support.</div>
-<div><label for="size6">Size:</label><select name="size6">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Comfort%20Grief%20Socks.png" alt="Comfort Grief Socks" />
-<div>Comfort Grief Socks - Cozy socks for moments of relaxation.</div>
-<div><label for="size7">Size:</label><select name="size7">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/cool%20body%20suit.png" alt="Cool Body Suit" />
-<div>Cool Body Suit - Sleek and comfortable body suit for all-day wear.</div>
-<div><label for="size8">Size:</label><select name="size8">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Coral%20Sports%20Bra%20Design.png" alt="Coral Sports Bra Design" />
-<div>Coral Sports Bra Design - Vibrant coral color for a fresh look.</div>
-<div><label for="size9">Size:</label><select name="size9">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Deep%20Berry%20SPL%20Yoga%20Pants.png" alt="Deep Berry SPL Yoga Pants" />
-<div>Deep Berry SPL Yoga Pants - Stretchy and bold for your yoga sessions.</div>
-<div><label for="size10">Size:</label><select name="size10">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Flesh-Colored%20SPL%20Body%20Suit.png" alt="Flesh-Colored SPL Body Suit" />
-<div>Flesh-Colored SPL Body Suit - Form-fitting suit in natural tones.</div>
-<div><label for="size11">Size:</label><select name="size11">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Lavender%20SPL%20Crop%20Top.png" alt="Lavender SPL Crop Top" />
-<div>Lavender SPL Crop Top - Soft lavender crop top with SPL logo.</div>
-<div><label for="size12">Size:</label><select name="size12">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Lavender%20SPL%20T-Shirt.png" alt="Lavender SPL T-Shirt" />
-<div>Lavender SPL T-Shirt - Everyday tee in gentle lavender hue.</div>
-<div><label for="size13">Size:</label><select name="size13">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Long%20Sleeve%20Anatomy%20Body%20Suit%20with%20Skirt.png" alt="Long Sleeve Anatomy Body Suit with Skirt" />
-<div>Long Sleeve Anatomy Body Suit with Skirt - Unique design for comfort and style.</div>
-<div><label for="size14">Size:</label><select name="size14">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Mint%20Sports%20Bra%20Design.png" alt="Mint Sports Bra Design" />
-<div>Mint Sports Bra Design - Refreshing mint for sporty looks.</div>
-<div><label for="size15">Size:</label><select name="size15">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Mint%20Tank%20with%20Coral%20Accents.png" alt="Mint Tank with Coral Accents" />
-<div>Mint Tank with Coral Accents - Breathable tank with vibrant accents.</div>
-<div><label for="size16">Size:</label><select name="size16">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Navy%20SPL%20Yoga%20Pants.png" alt="Navy SPL Yoga Pants" />
-<div>Navy SPL Yoga Pants - Classic navy yoga pants for all activities.</div>
-<div><label for="size17">Size:</label><select name="size17">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Peach%20SPL%20Crop%20Top.png" alt="Peach SPL Crop Top" />
-<div>Peach SPL Crop Top - Light and fresh peach-colored crop top.</div>
-<div><label for="size18">Size:</label><select name="size18">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Peach%20SPL%20T-Shirt.png" alt="Peach SPL T-Shirt" />
-<div>Peach SPL T-Shirt - Everyday comfort with a pop of peach.</div>
-<div><label for="size19">Size:</label><select name="size19">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/SPL%20Logo%20Baseball%20Cap.png" alt="SPL Logo Baseball Cap" />
-<div>SPL Logo Baseball Cap - Cap off your look with SPL pride.</div>
-<div><label for="size20">Size:</label><select name="size20">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/SPL%20Logo%20Ovary%20Body%20Suit.png" alt="SPL Logo Ovary Body Suit" />
-<div>SPL Logo Ovary Body Suit - Unique body suit with SPL ovary logo.</div>
-<div><label for="size21">Size:</label><select name="size21">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/SPL%20Logo%20Tote%20Bags.png" alt="SPL Logo Tote Bags" />
-<div>SPL Logo Tote Bags - Carry your essentials with SPL style.</div>
-<div><label for="size22">Size:</label><select name="size22">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/SPL%20Pajama%20Sets%20Loungewear.png" alt="SPL Pajama Sets Loungewear" />
-<div>SPL Pajama Sets Loungewear - Soft and cozy loungewear sets.</div>
-<div><label for="size23">Size:</label><select name="size23">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/SPL%20Scarves%20Bandanas%20Collection.png" alt="SPL Scarves Bandanas Collection" />
-<div>SPL Scarves &amp; Bandanas - Accessorize with unique SPL prints.</div>
-<div><label for="size24">Size:</label><select name="size24">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/Teal%20SPL%20Yoga%20Pants.png" alt="Teal SPL Yoga Pants" />
-<div>Teal SPL Yoga Pants - Flexible and colorful for your routines.</div>
-<div><label for="size25">Size:</label><select name="size25">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="images/topography.png" alt="Topography" />
-<div>Topography - Unique topography-inspired accessory or apparel.</div>
-<div><label for="size26">Size:</label><select name="size26">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-<div><img src="imageswhote%20body%20suit.png" alt="Whote Body Suit" />
-<div>Whote Body Suit - Sleek white body suit for versatile wear.</div>
-<div><label for="size27">Size:</label><select name="size27">
-<option value="s">S</option>
-<option value="m">M</option>
-<option value="l">L</option>
-<option value="xl">XL</option>
-</select></div>
-<button>Add to Cart</button></div>
-</div>
-<div>&times; <img alt="" /></div>
+    /* Modal Styles */
+    .image-modal {
+      display: none; position: fixed; z-index: 999;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center; align-items: center;
+    }
+    .image-modal img {
+      max-width: 90%; max-height: 90%;
+      cursor: zoom-in; transition: transform 0.2s ease;
+    }
+    .close-btn {
+      position: absolute; top: 20px; right: 40px;
+      color: white; font-size: 40px; font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>SPL Project Apparel Shop</h1>
+  <div class="shop-container">
+    <div class="item-card">
+      <img src="images/Aqua-Mint%20Sports%20Bra.png" alt="Aqua-Mint Sports Bra">
+      <div class="item-description">Aqua-Mint Sports Bra - Supportive and stylish for workouts.</div>
+      <div class="size-select">
+        <label for="size2">Size:</label>
+        <select id="size2" name="size2">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Blush%20SPL%20Crop%20Top.png" alt="Blush SPL Crop Top">
+      <div class="item-description">Blush SPL Crop Top - Soft and trendy crop top in blush pink.</div>
+      <div class="size-select">
+        <label for="size3">Size:</label>
+        <select id="size3" name="size3">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Blush%20SPL%20T-Shirt.png" alt="Blush SPL T-Shirt">
+      <div class="item-description">Blush SPL T-Shirt - Classic t-shirt in blush for everyday wear.</div>
+      <div class="size-select">
+        <label for="size4">Size:</label>
+        <select id="size4" name="size4">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Color-Block%20Active%20Top.png" alt="Color-Block Active Top">
+      <div class="item-description">Color-Block Active Top - Stylish color-block design for activity or leisure.</div>
+      <div class="size-select">
+        <label for="size5">Size:</label>
+        <select id="size5" name="size5">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Comfort%20Grief%20Pillow.png" alt="Comfort Grief Pillow">
+      <div class="item-description">Comfort Grief Pillow - Soft pillow providing comfort and support.</div>
+      <div class="size-select">
+        <label for="size6">Size:</label>
+        <select id="size6" name="size6">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Comfort%20Grief%20Socks.png" alt="Comfort Grief Socks">
+      <div class="item-description">Comfort Grief Socks - Cozy socks for moments of relaxation.</div>
+      <div class="size-select">
+        <label for="size7">Size:</label>
+        <select id="size7" name="size7">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/cool%20body%20suit.png" alt="Cool Body Suit">
+      <div class="item-description">Cool Body Suit - Sleek and comfortable body suit for all-day wear.</div>
+      <div class="size-select">
+        <label for="size8">Size:</label>
+        <select id="size8" name="size8">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Coral%20Sports%20Bra%20Design.png" alt="Coral Sports Bra Design">
+      <div class="item-description">Coral Sports Bra Design - Vibrant coral color for a fresh look.</div>
+      <div class="size-select">
+        <label for="size9">Size:</label>
+        <select id="size9" name="size9">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Deep%20Berry%20SPL%20Yoga%20Pants.png" alt="Deep Berry SPL Yoga Pants">
+      <div class="item-description">Deep Berry SPL Yoga Pants - Stretchy and bold for your yoga sessions.</div>
+      <div class="size-select">
+        <label for="size10">Size:</label>
+        <select id="size10" name="size10">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Flesh-Colored%20SPL%20Body%20Suit.png" alt="Flesh-Colored SPL Body Suit">
+      <div class="item-description">Flesh-Colored SPL Body Suit - Form-fitting suit in natural tones.</div>
+      <div class="size-select">
+        <label for="size11">Size:</label>
+        <select id="size11" name="size11">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Lavender%20SPL%20Crop%20Top.png" alt="Lavender SPL Crop Top">
+      <div class="item-description">Lavender SPL Crop Top - Soft lavender crop top with SPL logo.</div>
+      <div class="size-select">
+        <label for="size12">Size:</label>
+        <select id="size12" name="size12">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Lavender%20SPL%20T-Shirt.png" alt="Lavender SPL T-Shirt">
+      <div class="item-description">Lavender SPL T-Shirt - Everyday tee in gentle lavender hue.</div>
+      <div class="size-select">
+        <label for="size13">Size:</label>
+        <select id="size13" name="size13">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Long%20Sleeve%20Anatomy%20Body%20Suit%20with%20Skirt.png" alt="Long Sleeve Anatomy Body Suit with Skirt">
+      <div class="item-description">Long Sleeve Anatomy Body Suit with Skirt - Unique design for comfort and style.</div>
+      <div class="size-select">
+        <label for="size14">Size:</label>
+        <select id="size14" name="size14">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Mint%20Sports%20Bra%20Design.png" alt="Mint Sports Bra Design">
+      <div class="item-description">Mint Sports Bra Design - Refreshing mint for sporty looks.</div>
+      <div class="size-select">
+        <label for="size15">Size:</label>
+        <select id="size15" name="size15">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Mint%20Tank%20with%20Coral%20Accents.png" alt="Mint Tank with Coral Accents">
+      <div class="item-description">Mint Tank with Coral Accents - Breathable tank with vibrant accents.</div>
+      <div class="size-select">
+        <label for="size16">Size:</label>
+        <select id="size16" name="size16">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Navy%20SPL%20Yoga%20Pants.png" alt="Navy SPL Yoga Pants">
+      <div class="item-description">Navy SPL Yoga Pants - Classic navy yoga pants for all activities.</div>
+      <div class="size-select">
+        <label for="size17">Size:</label>
+        <select id="size17" name="size17">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Peach%20SPL%20Crop%20Top.png" alt="Peach SPL Crop Top">
+      <div class="item-description">Peach SPL Crop Top - Light and fresh peach-colored crop top.</div>
+      <div class="size-select">
+        <label for="size18">Size:</label>
+        <select id="size18" name="size18">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Peach%20SPL%20T-Shirt.png" alt="Peach SPL T-Shirt">
+      <div class="item-description">Peach SPL T-Shirt - Everyday comfort with a pop of peach.</div>
+      <div class="size-select">
+        <label for="size19">Size:</label>
+        <select id="size19" name="size19">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/SPL%20Logo%20Baseball%20Cap.png" alt="SPL Logo Baseball Cap">
+      <div class="item-description">SPL Logo Baseball Cap - Cap off your look with SPL pride.</div>
+      <div class="size-select">
+        <label for="size20">Size:</label>
+        <select id="size20" name="size20">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/SPL%20Logo%20Ovary%20Body%20Suit.png" alt="SPL Logo Ovary Body Suit">
+      <div class="item-description">SPL Logo Ovary Body Suit - Unique body suit with SPL ovary logo.</div>
+      <div class="size-select">
+        <label for="size21">Size:</label>
+        <select id="size21" name="size21">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/SPL%20Logo%20Tote%20Bags.png" alt="SPL Logo Tote Bags">
+      <div class="item-description">SPL Logo Tote Bags - Carry your essentials with SPL style.</div>
+      <div class="size-select">
+        <label for="size22">Size:</label>
+        <select id="size22" name="size22">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/SPL%20Pajama%20Sets%20Loungewear.png" alt="SPL Pajama Sets Loungewear">
+      <div class="item-description">SPL Pajama Sets Loungewear - Soft and cozy loungewear sets.</div>
+      <div class="size-select">
+        <label for="size23">Size:</label>
+        <select id="size23" name="size23">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/SPL%20Scarves%20Bandanas%20Collection.png" alt="SPL Scarves Bandanas Collection">
+      <div class="item-description">SPL Scarves & Bandanas - Accessorize with unique SPL prints.</div>
+      <div class="size-select">
+        <label for="size24">Size:</label>
+        <select id="size24" name="size24">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/Teal%20SPL%20Yoga%20Pants.png" alt="Teal SPL Yoga Pants">
+      <div class="item-description">Teal SPL Yoga Pants - Flexible and colorful for your routines.</div>
+      <div class="size-select">
+        <label for="size25">Size:</label>
+        <select id="size25" name="size25">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="images/topography.png" alt="Topography">
+      <div class="item-description">Topography - Unique topography-inspired accessory or apparel.</div>
+      <div class="size-select">
+        <label for="size26">Size:</label>
+        <select id="size26" name="size26">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+    <div class="item-card">
+      <img src="imageswhote%20body%20suit.png" alt="Whote Body Suit">
+      <div class="item-description">Whote Body Suit - Sleek white body suit for versatile wear.</div>
+      <div class="size-select">
+        <label for="size27">Size:</label>
+        <select id="size27" name="size27">
+          <option value="s">S</option>
+          <option value="m">M</option>
+          <option value="l">L</option>
+          <option value="xl">XL</option>
+        </select>
+      </div>
+      <button class="add-to-cart" onclick="alert('Demo only')">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Modal for Enlarged Images -->
+  <div id="imgModal" class="image-modal">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <img id="modalImg" src="">
+  </div>
+
+  <script>
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeModal = document.getElementById('closeModal');
+    let zoomed = false;
+
+    document.querySelectorAll('.item-card img').forEach(img => {
+      img.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        modalImg.src = img.src;
+        zoomed = false;
+        modalImg.style.transform = 'scale(1)';
+      });
+    });
+
+    closeModal.addEventListener('click', () => modal.style.display = 'none');
+
+    modalImg.addEventListener('click', () => {
+      zoomed = !zoomed;
+      modalImg.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
+      modalImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
