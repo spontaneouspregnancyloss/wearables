@@ -867,3 +867,173 @@
       // Show success message
       successText.textContent = `${product.name} (${selectedSize.toUpperCase()}) added to cart!`;
       successMessage.classList.add('show');
+      setTimeout(() => {
+        successMessage.classList.remove('show');
+      }, 3000);
+
+      // Reset size selection
+      sizeSelect.value = '';
+
+      console.log('Cart:', cart); // For debugging
+    }
+
+    // Modal functionality
+    function setupModal() {
+      // Open modal when clicking on media
+      document.addEventListener('click', (e) => {
+        if (e.target.tagName === 'IMG' && e.target.closest('.media-container')) {
+          openImageModal(e.target.src, e.target.alt);
+        } else if (e.target.tagName === 'VIDEO' && e.target.closest('.media-container')) {
+          openVideoModal(e.target.src);
+        }
+      });
+
+      // Close modal
+      closeModal.addEventListener('click', closeModalFunction);
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModalFunction();
+        }
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+          if (e.key === 'Escape') {
+            closeModalFunction();
+          } else if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            if (modalImg.style.display !== 'none') {
+              toggleImageZoom();
+            } else if (modalVideo.style.display !== 'none') {
+              toggleVideoPlayPause();
+            }
+          }
+        }
+      });
+    }
+
+    function openImageModal(src, alt) {
+      modal.style.display = 'flex';
+      modalImg.src = src;
+      modalImg.alt = alt;
+      modalImg.style.display = 'block';
+      modalVideo.style.display = 'none';
+      zoomed = false;
+      modalImg.style.transform = 'scale(1)';
+      modalImg.style.cursor = 'zoom-in';
+      zoomHint.textContent = 'Click image to zoom';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Image zoom on click
+      modalImg.onclick = toggleImageZoom;
+      
+      setTimeout(() => closeModal.focus(), 100);
+    }
+
+    function openVideoModal(src) {
+      modal.style.display = 'flex';
+      modalVideo.src = src;
+      modalImg.style.display = 'none';
+      modalVideo.style.display = 'block';
+      modalVideo.controls = true;
+      zoomHint.textContent = 'Click to play/pause video';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Video play/pause on click
+      modalVideo.onclick = toggleVideoPlayPause;
+      
+      setTimeout(() => closeModal.focus(), 100);
+    }
+
+    function toggleImageZoom() {
+      zoomed = !zoomed;
+      modalImg.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
+      modalImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
+      zoomHint.textContent = zoomed ? 'Click to zoom out' : 'Click to zoom in';
+    }
+
+    function toggleVideoPlayPause() {
+      if (modalVideo.paused) {
+        modalVideo.play();
+      } else {
+        modalVideo.pause();
+      }
+    }
+
+    function closeModalFunction() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      zoomed = false;
+      
+      // Pause and reset video if it was playing
+      if (modalVideo.style.display !== 'none') {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+        modalVideo.src = '';
+      }
+      
+      // Clear image
+      if (modalImg.style.display !== 'none') {
+        modalImg.src = '';
+      }
+    }
+
+    // Pause all videos when page loses focus
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        currentPlayingVideos.forEach(video => {
+          video.pause();
+          video.currentTime = 0;
+        });
+        currentPlayingVideos.clear();
+        
+        // Remove playing class from all containers
+        document.querySelectorAll('.media-container.video-playing').forEach(container => {
+          container.classList.remove('video-playing');
+        });
+      }
+    });
+
+    // Initialize the app
+    function init() {
+      renderFeaturedVideos();
+      renderProducts();
+      setupVideoHover();
+      setupModal();
+      
+      // Add loading animation to images
+      document.addEventListener('DOMContentLoaded', () => {
+        const images = document.querySelectorAll('.item-card img');
+        images.forEach(img => {
+          if (!img.complete) {
+            img.classList.add('loading-placeholder');
+            img.addEventListener('load', () => {
+              img.classList.remove('loading-placeholder');
+            });
+          }
+        });
+
+        // Preload video metadata for smoother hover experience
+        const videos = document.querySelectorAll('.item-card video');
+        videos.forEach(video => {
+          video.addEventListener('loadedmetadata', () => {
+            video.style.opacity = '1';
+          });
+        });
+      });
+    }
+
+    // Start the application
+    init();
+
+    // Expose addToCart function globally for onclick handlers
+    window.addToCart = addToCart;
+  </script>
+</body>
+</html>
